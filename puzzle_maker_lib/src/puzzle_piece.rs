@@ -17,13 +17,6 @@ impl PuzzlePiece {
         }
     }
 
-    pub fn get_val(&self) -> u32 {
-        match self.cell {
-            Cell::Value(v) => v,
-            Cell::None => panic!("This cell has no value"),
-        }
-    }
-
     pub fn set_val(&mut self, val: u32) {
         // dbg!(&val);
         self.cell = Cell::Value(val);
@@ -46,7 +39,7 @@ mod tests {
     pub fn test_set_puzzle_piece_value() {
         let mut piece = PuzzlePiece::new();
         piece.set_val(9);
-        assert_eq!(piece.clone().get_val(), 9);
+        assert_eq!(piece.clone().cell, Cell::Value(9));
         dbg!(piece);
     }
 }

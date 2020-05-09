@@ -7,7 +7,6 @@ impl BoardBuilder {
 
     pub fn build_brute() {
         println!("Build brute force");
-        let mut puzzle_board = PuzzleBoard::new();
         let mut resets = 0;
 
         'build: loop {
@@ -18,6 +17,7 @@ impl BoardBuilder {
                 let mut rows_inserted = 0;
                 let mut cont_runs = 0;
 
+                let mut puzzle_board = PuzzleBoard::new();
                 &puzzle_board.insert_list(pos, PuzzleBoard::make_row());
                 rows_inserted = rows_inserted + 1;
 
@@ -32,24 +32,17 @@ impl BoardBuilder {
                         cont_runs = 0;
                     }
     
-                    // if rows_inserted % 1000 == 0 {  
-                    //     println!("iterations {}", rows_inserted);
-                    //     puzzle_board.print_board();
-                    // }
-    
-                    if cont_runs != 0 && cont_runs % 1000000 == 0 {
-                        println!("\n\n{} iterations without a solution. Dead end.\nReset num: {}\n#FailedBoard", &cont_runs, resets);
+                    if cont_runs != 0 && cont_runs % 500000 == 0 {
+                        println!("\n\n{} iterations without a solution. Dead end with board fail.\nReset num: {}\n", &cont_runs, resets);
                         puzzle_board.print_board();
                         resets = resets + 1;
                         break 'inner;
                     }
                 }
-
+                println!("Board Success\n\n");
+                puzzle_board.print_board();
                 break 'build;
             }
         }
-        
-        println!("Board Success\n\n");
-        puzzle_board.print_board();
     }
 }

@@ -37,19 +37,6 @@ impl PuzzleBoard {
         vec![PuzzlePiece::new(); 9*9]
     }
 
-    pub fn fill_board(mut self) -> PuzzleBoard {
-        let mut num = 1;
-        for x in 0..self.board.len() {
-            if num % 10 == 0 {
-                num = 1;
-            } 
-            &self.board[x].set_val(num);
-            num = num + 1;
-        }
-
-        self
-    }
-
     pub fn make_row() -> NumList {
         Self::shuffle(vec![1, 2, 3, 4, 5, 6, 7, 8, 9], Self::SHUFFLE_COUNT)
     }
@@ -232,13 +219,13 @@ mod tests {
         let mut puzzle_board = PuzzleBoard::new();
         assert_eq!(puzzle_board.clone().board[PuzzleBoard::xy_idx(0, 0)].cell, Cell::None);
         puzzle_board.board[PuzzleBoard::xy_idx(0, 0)].set_val(9);
-        assert_eq!(puzzle_board.clone().board[PuzzleBoard::xy_idx(0, 0)].get_val(), 9);
+        assert_eq!(puzzle_board.clone().board[PuzzleBoard::xy_idx(0, 0)].cell, Cell::Value(9));
         dbg!(puzzle_board);
     }
 
     #[test]
     pub fn test_fill_in_board() {
-        let puzzle_board = PuzzleBoard::new().fill_board();
+        let puzzle_board = PuzzleBoard::new();
         assert_eq!(puzzle_board.board.len(), 81);
         dbg!("{:?}", &puzzle_board);
         puzzle_board.print_board();
@@ -247,13 +234,13 @@ mod tests {
 
     #[test]
     pub fn test_extract_row() {
-        let puzzle_board = PuzzleBoard::new().fill_board();
+        let puzzle_board = PuzzleBoard::new();
         dbg!(puzzle_board.extract_row(0));
     }
 
     #[test]
     pub fn test_get_pos() {
-        let puzzle_board = PuzzleBoard::new().fill_board();
+        let puzzle_board = PuzzleBoard::new();
         match &puzzle_board.board[PuzzleBoard::xy_idx(0, 0)].cell {
             Cell::None => (),
             Cell::Value(v) => assert_eq!(*v, 1),

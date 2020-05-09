@@ -57,26 +57,6 @@ impl DuplicateChecker {
 
         false
     }
-
-    
-    pub fn column_dup_found(pb: &PuzzleBoard, col: u32) -> bool {
-        for y in 0..9 {
-            let val = &pb.board[PuzzleBoard::xy_idx(col, y)].cell;
-            for z in (y + 1)..9 {
-                let check = &pb.board[PuzzleBoard::xy_idx(col, z)].cell;
-                match (val, check) {
-                    (Cell::Value(v), Cell::Value(c)) => {
-                        if v == c { return true };
-                    }
-                    (Cell::Value(_), Cell::None) => (),
-                    (Cell::None, Cell::None) => (),
-                    (Cell::None, _) => (),
-                }
-            }
-        }
-
-        false
-    }
 }
 
 #[cfg(test)]
@@ -101,7 +81,7 @@ mod tests {
 
         // dbg!(&pb);
 
-        assert_eq!(DuplicateChecker::column_dup_found(&pb, 0), false);
+        assert_eq!(DuplicateChecker::list_dup_found(&pb.board), false);
     }
 
     #[test]
@@ -151,7 +131,9 @@ mod tests {
         pb.board[PuzzleBoard::xy_idx(0, 7)].set_val(8);
         pb.board[PuzzleBoard::xy_idx(0, 8)].set_val(9);
         pb.print_board();
-        assert_eq!(DuplicateChecker::column_dup_found(&pb, 0), true);
+
+        assert_eq!(DuplicateChecker::list_dup_found(&pb.board), true);
+
 
         let mut pb = PuzzleBoard::new();
 
@@ -165,7 +147,7 @@ mod tests {
         pb.board[PuzzleBoard::xy_idx(0, 7)].set_val(8);
         pb.board[PuzzleBoard::xy_idx(0, 8)].set_val(1);
         pb.print_board();
-        assert_eq!(DuplicateChecker::column_dup_found(&pb, 0), true);
+        assert_eq!(DuplicateChecker::list_dup_found(&pb.board), true);
 
         let mut pb = PuzzleBoard::new();
 
@@ -179,7 +161,7 @@ mod tests {
         pb.board[PuzzleBoard::xy_idx(0, 7)].set_val(8);
         pb.board[PuzzleBoard::xy_idx(0, 8)].set_val(9);
         pb.print_board();
-        assert_eq!(DuplicateChecker::column_dup_found(&pb, 0), true);
+        assert_eq!(DuplicateChecker::list_dup_found(&pb.board), true);
 
         let mut pb = PuzzleBoard::new();
 
@@ -193,7 +175,7 @@ mod tests {
         pb.board[PuzzleBoard::xy_idx(0, 7)].set_val(8);
         pb.board[PuzzleBoard::xy_idx(0, 8)].set_val(1);
         pb.print_board();
-        assert_eq!(DuplicateChecker::column_dup_found(&pb, 0), true);
+        assert_eq!(DuplicateChecker::list_dup_found(&pb.board), true);
 
         let mut pb = PuzzleBoard::new();
 
@@ -207,7 +189,7 @@ mod tests {
         // pb.board[PuzzleBoard::xy_idx(0, 7)].set_val(8);
         // pb.board[PuzzleBoard::xy_idx(0, 8)].set_val(9);
         pb.print_board();
-        assert_eq!(DuplicateChecker::column_dup_found(&pb, 0), false);
+        assert_eq!(DuplicateChecker::list_dup_found(&pb.board), false);
 
         let mut pb = PuzzleBoard::new();
 
@@ -221,7 +203,7 @@ mod tests {
         // pb.board[PuzzleBoard::xy_idx(0, 7)].set_val(8);
         // pb.board[PuzzleBoard::xy_idx(0, 8)].set_val(1);
         pb.print_board();
-        assert_eq!(DuplicateChecker::column_dup_found(&pb, 0), false);
+        assert_eq!(DuplicateChecker::list_dup_found(&pb.board), false);
 
     }
 }
