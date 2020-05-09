@@ -1,7 +1,9 @@
 [workspace]
 members = [
-    "brute_solver_prgm",
+    "brute_solver_lib",
     "puzzle_maker_lib",
+    "puzzle_scorer_lib",
+    "rs_sudoku_menu",
 ]
 
 [profile.dev]

@@ -81,7 +81,7 @@ impl DuplicateChecker {
 
 #[cfg(test)]
 
-mod test {
+mod tests {
 
     use super::*;
 

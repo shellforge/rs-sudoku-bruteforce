@@ -1,5 +1,7 @@
-pub mod puzzle_board;
-pub mod duplicate_checker;
+pub mod board_builder;
+
+mod puzzle_board;
+mod duplicate_checker;
 mod puzzle_piece;
 
 
