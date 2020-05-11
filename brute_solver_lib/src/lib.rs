@@ -1,8 +1,8 @@
 use std::env;
 
-mod puzzle_state;
-mod brute_solver;
-mod file_reader;
+pub mod puzzle_state;
+pub mod brute_solver;
+pub mod file_reader;
 
 use crate::puzzle_state::PuzzleState;
 use crate::brute_solver::BruteSolver;
@@ -24,7 +24,8 @@ fn main() {
     //     "--file" => 
     // }
 
-    let file = "brute_solver_prgm/test_files/sudoku_test.json";
+    // let file = "brute_solver_prgm/test_files/sudoku_test.json";
+    let file = "brute_solver_lib/test_files/7eafa229-8de4-451b-9ebc-bf08dea46607.result";
 
     let file = FileReader::read(file);
 

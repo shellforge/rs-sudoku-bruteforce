@@ -1,10 +1,12 @@
-#[derive(PartialEq, Eq, Debug, Clone)]
+use serde::Serialize;
+
+#[derive(PartialEq, Eq, Debug, Clone, Serialize)]
 pub enum Cell {
     Value(u32),
     None,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct PuzzlePiece {
     pub cell: Cell,
 }
@@ -20,6 +22,13 @@ impl PuzzlePiece {
     pub fn set_val(&mut self, val: u32) {
         // dbg!(&val);
         self.cell = Cell::Value(val);
+    }
+
+    pub fn get_val(&self) -> u32 {
+        match self.cell {
+            Cell::Value(v) => v,
+            Cell::None => panic!("None value found"),
+        }
     }
 }
 

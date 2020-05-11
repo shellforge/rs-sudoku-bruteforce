@@ -1,8 +1,11 @@
 use rand::prelude::*;
+use serde::Serialize;
+use uuid::Uuid;
 use crate::puzzle_piece::{Cell, PuzzlePiece};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct PuzzleBoard {
+    pub uuid: Uuid,
     pub board: Vec<PuzzlePiece>,
 }
 
@@ -19,6 +22,7 @@ impl PuzzleBoard {
     pub fn new() -> PuzzleBoard {
 
         PuzzleBoard {
+            uuid: Uuid::new_v4(),
             board: Self::build_blank_board(),
         }
     }
@@ -37,8 +41,39 @@ impl PuzzleBoard {
         vec![PuzzlePiece::new(); 9*9]
     }
 
+    pub fn print_stats(&self) {
+        let mut zeros = 0;
+        for x in self.board.iter() {
+            if x.get_val() == 0 {
+                zeros = zeros + 1;
+            }
+        }
+
+        println!("Zeroes: {}", zeros);
+    }
+
     pub fn make_row() -> NumList {
         Self::shuffle(vec![1, 2, 3, 4, 5, 6, 7, 8, 9], Self::SHUFFLE_COUNT)
+    }
+
+    pub fn pack_board_to_export(&self) -> String {
+        let mut temp = String::from("[\n");
+        for y in 0..9 {
+            temp.push_str("    [");
+            for x in 0..9 {
+                let pos_val: String = self.board[PuzzleBoard::xy_idx(x, y)].get_val().to_string();
+                temp.push_str(&[&pos_val, ", "].concat());
+            }
+            temp.pop();
+            temp.pop();
+            temp.push_str("],\n");
+        }
+        temp.pop();
+        temp.pop();
+        temp.push_str("\n");
+        temp.push_str("]");
+
+        temp
     }
 
     pub fn extract_row(&self, row: u32) -> PuzzlePieceList {
@@ -60,9 +95,9 @@ impl PuzzleBoard {
 
     }
 
-    pub fn insert_list(&mut self, row: u32, list: Vec<u32>) {
+    pub fn insert_list(&mut self, pos: u32, list: Vec<u32>) {
         for x in 0..9 {
-            self.board[PuzzleBoard::xy_idx(x, row)].cell = Cell::Value(list[x as usize]);
+            self.board[PuzzleBoard::xy_idx(x, pos)].cell = Cell::Value(list[x as usize]);
         }
     }
 
@@ -165,16 +200,15 @@ impl PuzzleBoard {
         println!();
     }
 
-    pub fn shuffle(mut list: Vec<u32>, mut count: usize) -> Vec<u32> {
+    pub fn shuffle(mut list: Vec<u32>, count: usize) -> Vec<u32> {
 
-        while count > 0 {
-            let p_pos = Self::get_rand_pos();
-            let n_pos = Self::get_rand_pos();
-            let t_val = list[n_pos];
-            list[n_pos] = list[p_pos];
-            list[p_pos] = t_val;
+        for _x in 0..count {
+            let prev_pos = Self::get_rand_pos();
+            let next_pos = Self::get_rand_pos();
+            let t_val = list[next_pos];
+            list[next_pos] = list[prev_pos];
+            list[prev_pos] = t_val;
 
-            count = count - 1;
         }
 
         list
@@ -196,11 +230,18 @@ impl PuzzleBoard {
 mod tests {
 
     use super::*;
+    use crate::board_builder::BoardBuilder;
 
     #[test]
     pub fn test_blank_board() {
         let puzzle_board = PuzzleBoard::new();
         dbg!("{:?}", puzzle_board);
+    }
+
+    #[test]
+    pub fn test_pack_board_to_export() {
+        let puzzle_board = BoardBuilder::build_fail_board();
+        print!("{}", puzzle_board.pack_board_to_export());
     }
 
     #[test]

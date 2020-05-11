@@ -1,10 +1,10 @@
-#[derive(Debug, Clone)]
-pub struct Cell {
+#[derive(PartialEq, Debug, Clone)]
+pub struct Piece {
     pub established: bool,
     pub value: u64,
 }
 
-pub type Grid = Vec<Vec<Cell>>;
+pub type Grid = Vec<Vec<Piece>>;
 
 #[derive(Debug, Clone, Default)]
 pub struct PuzzleState {
@@ -25,7 +25,7 @@ impl PuzzleState {
             .iter()
             .map(|row| {
                 row.iter()
-                    .map(|n| Cell {
+                    .map(|n| Piece {
                         established: (*n != 0),
                         value: n.clone(),
                     })

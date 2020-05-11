@@ -7,7 +7,7 @@ impl DuplicateChecker {
 
     /// # About
     /// Checks for duplicates horizontal and then vertical across the board.
-    /// REturning when we find a None in the horiz.
+    /// Returning when we find a None in the horiz.
     pub fn duplicate_found(puzzle_board: &PuzzleBoard, pos: u32) -> bool {
         match pos {
             0 => return Self::board_iter(puzzle_board, vec![0, 1, 2], vec![0, 1, 2]),
