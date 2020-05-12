@@ -33,14 +33,9 @@ fn main() {
         SWITCH_BUILD => {
             let mut puzzle_board = BoardBuilder::build_brute();
             BoardBuilder::write_to_file(&puzzle_board, ".answer");
-
-            puzzle_board = PuzzleMaker::apply_pattern(puzzle_board, PuzzleMaker::PATTERN_STAR.to_vec());
-            puzzle_board = PuzzleMaker::apply_pattern(puzzle_board, PuzzleMaker::PATTERN_EAST_TO_WEST.to_vec());
-
+            puzzle_board = PuzzleMaker::apply_patterns(puzzle_board, 45);
             BoardBuilder::write_to_file(&puzzle_board, ".puzzle");
-            puzzle_board.print_stats();
-
-
+            puzzle_board.print_board();
         },
         SWITCH_SOLVE => {
             let file = args[2].parse::<String>().unwrap();    

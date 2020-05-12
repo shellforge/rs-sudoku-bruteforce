@@ -5,6 +5,7 @@ mod puzzle_board;
 mod duplicate_checker;
 mod puzzle_piece;
 mod file_writer;
+mod puzzle_patterns;
 
 
 #[cfg(test)]

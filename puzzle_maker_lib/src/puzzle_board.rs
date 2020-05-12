@@ -41,6 +41,17 @@ impl PuzzleBoard {
         vec![PuzzlePiece::new(); 9*9]
     }
 
+    pub fn clues(&self) -> usize {
+        let mut val = 0;
+        for x in self.board.iter() {
+            if x.get_val() > 0 {
+                val = val + 1;
+            }
+        }
+
+        val
+    }
+
     pub fn print_stats(&self) {
         let mut zeros = 0;
         for x in self.board.iter() {
