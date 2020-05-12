@@ -10,3 +10,4 @@ There are two options, --build a puzzle or --solve a puzzle. The puzzle format n
 * [DONE] - Add menu options for solving a puzzle vs building a puzzle
 * [DONE] - Take built puzzles and configure them to be solvable puzzles
 * Provide a scoring mechanism to determine the difficulty of the puzzle to obscure
+* review brute force solver to determine counts of potential answers to determine how many solutions exist for a puzzle
