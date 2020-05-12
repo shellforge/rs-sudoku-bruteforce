@@ -32,9 +32,9 @@ fn main() {
 
         SWITCH_BUILD => {
             let mut puzzle_board = BoardBuilder::build_brute();
-            BoardBuilder::write_to_file(&puzzle_board, ".answer");
+            BoardBuilder::write_to_file(&puzzle_board, "_answer");
             puzzle_board = PuzzleMaker::apply_patterns(puzzle_board, 45);
-            BoardBuilder::write_to_file(&puzzle_board, ".puzzle");
+            BoardBuilder::write_to_file(&puzzle_board, "_puzzle");
             puzzle_board.print_board();
         },
         SWITCH_SOLVE => {

@@ -8,7 +8,7 @@ pub struct FileWriter;
 impl FileWriter {
 
     pub fn write_results(puzzle_board: &PuzzleBoard, ext: &str) {
-        let name = [&puzzle_board.uuid.to_string(), ext].concat();
+        let name = [&puzzle_board.uuid.to_string(), ext, ".json"].concat();
         let path = std::path::Path::new(&name);
 
         let serialized = &puzzle_board.pack_board_to_export();
@@ -34,6 +34,6 @@ mod tests {
     #[test]
     pub fn test_write_results() {
         let puzzle_board: PuzzleBoard = BoardBuilder::build_fail_board();
-        FileWriter::write_results(&puzzle_board, ".answer");
+        FileWriter::write_results(&puzzle_board, "_answer");
     }
 }
