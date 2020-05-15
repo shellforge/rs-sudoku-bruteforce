@@ -93,16 +93,8 @@ mod test {
     }
 
     #[test]
-    fn test_new_state() {
-        let state0 = PuzzleState::new(input0()).unwrap();
-        assert_eq!(state0.grid[0][2].value, 8);
-        assert_eq!(state0.col, 0);
-        assert_eq!(state0.row, 0);
-    }
-
-    #[test]
     fn test_not_in_row() {
-        let state0 = PuzzleState::new(input0()).unwrap();
+        let state0 = PuzzleState::with_values(input0()).unwrap();
         assert!(BruteSolver::not_in_row(&state0.grid, 0, 1));
         assert!(!BruteSolver::not_in_row(&state0.grid, 0, 8));
         assert!(BruteSolver::not_in_row(&state0.grid, 4, 5));
@@ -111,7 +103,7 @@ mod test {
 
     #[test]
     fn test_not_in_column() {
-        let state0 = PuzzleState::new(input0()).unwrap();
+        let state0 = PuzzleState::with_values(input0()).unwrap();
         assert!(BruteSolver::not_in_column(&state0.grid, 0, 2));
         assert!(!BruteSolver::not_in_column(&state0.grid, 0, 7));
         assert!(BruteSolver::not_in_column(&state0.grid, 6, 5));
@@ -120,7 +112,7 @@ mod test {
 
     #[test]
     fn test_not_in_square() {
-        let state0 = PuzzleState::new(input0()).unwrap();
+        let state0 = PuzzleState::with_values(input0()).unwrap();
         assert!(BruteSolver::not_in_square(&state0.grid, 0, 0, 1));
         assert!(!BruteSolver::not_in_square(&state0.grid, 0, 0, 8));
         assert!(BruteSolver::not_in_square(&state0.grid, 5, 6, 5));
@@ -129,7 +121,7 @@ mod test {
 
     #[test]
     fn test_next_lowest_value() {
-        let state0 = PuzzleState::new(input0()).unwrap();
+        let state0 = PuzzleState::with_values(input0()).unwrap();
         assert_eq!(BruteSolver::next_lowest_value(&state0.grid, 0, 3, 0).unwrap(), 3);
         assert_eq!(BruteSolver::next_lowest_value(&state0.grid, 4, 4, 0).unwrap(), 4);
         assert_eq!(BruteSolver::next_lowest_value(&state0.grid, 4, 4, 5), None);
@@ -137,7 +129,7 @@ mod test {
 
     #[test]
     fn test_next_position() {
-        let mut state0 = PuzzleState::new(input0()).unwrap();
+        let mut state0 = PuzzleState::with_values(input0()).unwrap();
         state0.next_position();
         assert_eq!(state0.row, 0);
         assert_eq!(state0.col, 1);
@@ -150,7 +142,7 @@ mod test {
 
     #[test]
     fn test_backtrack() {
-        let mut state0 = PuzzleState::new(input0()).unwrap();
+        let mut state0 = PuzzleState::with_values(input0()).unwrap();
         state0.row = 2;
         state0.col = 1;
         state0.backtrack();
@@ -165,7 +157,7 @@ mod test {
 
     #[test]
     fn test_solve() {
-        let mut state0 = PuzzleState::new(input0()).unwrap();
+        let mut state0 = PuzzleState::with_values(input0()).unwrap();
         BruteSolver::solve(&mut state0);
     }
 }
