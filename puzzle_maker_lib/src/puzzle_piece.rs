@@ -1,16 +1,22 @@
 use serde::Serialize;
+use rayon::prelude::*;
 
-#[derive(PartialEq, Eq, Debug, Clone, Serialize)]
+#[derive(PartialEq, Eq, Debug, Copy, Clone, Serialize)]
 pub enum Cell {
     Value(u32),
     None,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Copy, Clone, Serialize)]
 pub struct PuzzlePiece {
     pub cell: Cell,
 }
 
+/// # About
+/// The main component for managing the values on our PuzzleBoard
+/// 
+/// # ToDo
+/// * Parallelization - done 
 impl PuzzlePiece {
 
     pub fn new() -> PuzzlePiece {
@@ -20,7 +26,6 @@ impl PuzzlePiece {
     }
 
     pub fn set_val(&mut self, val: u32) {
-        // dbg!(&val);
         self.cell = Cell::Value(val);
     }
 
@@ -31,6 +36,7 @@ impl PuzzlePiece {
         }
     }
 }
+
 
 #[cfg(test)]
 
