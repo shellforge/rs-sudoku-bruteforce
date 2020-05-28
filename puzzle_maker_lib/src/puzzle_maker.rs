@@ -34,16 +34,19 @@ impl PuzzleMaker {
         }
     }
 
-    // pub fn apply_pattern_par(puzzle_board: PuzzleBoard, pattern: Vec<(u32, u32)>) -> PuzzleBoard {
-    //     let puzzle_board = pattern.into_par_iter().map_with(puzzle_board, |p, (x, y)| {
-    //         p.board[PuzzleBoard::xy_idx(x, y)].set_val(0);
-    //     }).collect();
+    pub fn apply_pattern_par(puzzle_board: PuzzleBoard, pattern: Vec<(u32, u32)>) -> PuzzleBoard {
+        let mut temp = Vec::new();
+        pattern.into_par_iter().map_with(puzzle_board.clone(), |p, (x, y)| {
+            dbg!(&p);
+            p.board[PuzzleBoard::xy_idx(x, y)].set_val(0);
+        }).collect_into_vec(&mut temp);
+        dbg!(temp);
 
-    //     puzzle_board
+        puzzle_board
 
-    //     // self.board.clone().into_par_iter().filter(|x| x.get_val() > 0).collect::<Vec<PuzzlePiece>>().len()
+        // self.board.clone().into_par_iter().filter(|x| x.get_val() > 0).collect::<Vec<PuzzlePiece>>().len()
 
-    // }
+    }
 
     pub fn apply_pattern(mut puzzle_board: PuzzleBoard, pattern: Vec<(u32, u32)>) -> PuzzleBoard {
         for (x, y) in pattern.iter() {
@@ -58,12 +61,22 @@ impl PuzzleMaker {
 mod tests {
 
     use super::*;
+    use crate::puzzle_patterns::PuzzlePatterns;
     use crate::board_builder::BoardBuilder;
 
+
     #[test]
-    pub fn test_apply_patterns() {
+    pub fn test_apply_pattern() {
         let mut puzzle_board = BoardBuilder::build_fail_board();
-        puzzle_board = PuzzleMaker::apply_patterns(puzzle_board, 45);
+        puzzle_board = PuzzleMaker::apply_pattern(puzzle_board, PuzzlePatterns::get_rand_pattern());
+        puzzle_board.print_board();
+        println!("Clues: {}", puzzle_board.clues());
+    }
+
+    #[test]
+    pub fn test_apply_par_pattern() {
+        let mut puzzle_board = BoardBuilder::build_fail_board();
+        puzzle_board = PuzzleMaker::apply_pattern_par(puzzle_board, PuzzlePatterns::get_rand_pattern());
         puzzle_board.print_board();
         println!("Clues: {}", puzzle_board.clues());
     }

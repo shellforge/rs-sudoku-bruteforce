@@ -13,9 +13,6 @@ use brute_solver_lib::{
     brute_solver::BruteSolver,
 };
 
-
-
-
 fn main() {
 
     const SWITCH_BUILD: &str = "--build";
