@@ -21,7 +21,7 @@ impl PuzzleMaker {
 
         loop {
             temp = Self::apply_pattern(temp, PuzzlePatterns::get_rand_pattern());
-            let clues = temp.clues_par();
+            let clues = temp.count_clues_par();
             
             if clues < 39 {
                 temp = puzzle_board.clone();

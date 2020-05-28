@@ -55,7 +55,7 @@ impl PuzzleBoard {
         val
     }
 
-    pub fn clues_par(&self) -> usize {
+    pub fn count_clues_par(&self) -> usize {
         self.board.clone().into_par_iter().filter(|x| x.get_val() > 0).collect::<Vec<PuzzlePiece>>().len()
         // let val: Vec<PuzzlePiece> = self.board.into_par_iter().filter(|x| x.get_val() > 0).collect().len();
 
@@ -286,7 +286,7 @@ mod tests {
             piece.set_val(1);
         }
 
-        assert_eq!(puzzle_board.clues_par(), 81);
+        assert_eq!(puzzle_board.count_clues_par(), 81);
     }
 
     #[test]
