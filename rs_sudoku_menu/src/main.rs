@@ -1,8 +1,6 @@
 extern crate puzzle_maker_lib;
 extern crate brute_solver_lib;
 
-mod menu;
-
 use puzzle_maker_lib::{
     board_builder::BoardBuilder,
     puzzle_maker::PuzzleMaker,
