@@ -1,6 +1,8 @@
 use rand::prelude::*;
+use rayon::prelude::*;
 use serde::Serialize;
 use uuid::Uuid;
+
 use crate::puzzle_piece::{Cell, PuzzlePiece};
 
 #[derive(Debug, Clone, Serialize)]
@@ -43,13 +45,21 @@ impl PuzzleBoard {
 
     pub fn clues(&self) -> usize {
         let mut val = 0;
-        for x in self.board.iter() {
+        
+        let mut board_iter = self.board.iter();
+        while let Some(x) = board_iter.next() {
             if x.get_val() > 0 {
                 val = val + 1;
             }
         }
-
         val
+    }
+
+    pub fn count_clues_par(&self) -> usize {
+        self.board.clone().into_par_iter().filter(|x| x.get_val() > 0).collect::<Vec<PuzzlePiece>>().len()
+        // let val: Vec<PuzzlePiece> = self.board.into_par_iter().filter(|x| x.get_val() > 0).collect().len();
+
+        // val.len()
     }
 
     pub fn print_stats(&self) {
@@ -225,6 +235,18 @@ impl PuzzleBoard {
         list
     }
 
+    // pub fn shuffle_par(list: Vec<u32>, count: usize) -> Vec<u32> {
+    //     (0..count).into_par_iter().for_each_with(&list, |l, _| {
+    //         let prev_pos = Self::get_rand_pos();
+    //         let next_pos = Self::get_rand_pos();
+    //         let t_val = l[next_pos];
+    //         l[next_pos] = l[prev_pos];
+    //         l[prev_pos] = t_val;
+    //     });
+
+    //     list
+    // }
+
     fn get_rand_pos() -> usize {
         let mut rng = rand::thread_rng();
 
@@ -237,7 +259,6 @@ impl PuzzleBoard {
 
 
 #[cfg(test)]
-
 mod tests {
 
     use super::*;
@@ -247,6 +268,25 @@ mod tests {
     pub fn test_blank_board() {
         let puzzle_board = PuzzleBoard::new();
         dbg!("{:?}", puzzle_board);
+    }
+
+    #[test]
+    pub fn test_shuffle() {
+        let mut temp = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+        temp = PuzzleBoard::shuffle(temp, 10000000);
+        dbg!(temp);
+    }
+
+    #[test]
+    pub fn test_clue_count() {
+        let mut puzzle_board = PuzzleBoard::new();
+
+        let mut board_iter = puzzle_board.board.iter_mut();
+        while let Some(piece) = board_iter.next() {
+            piece.set_val(1);
+        }
+
+        assert_eq!(puzzle_board.count_clues_par(), 81);
     }
 
     #[test]

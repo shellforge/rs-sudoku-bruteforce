@@ -1,8 +1,6 @@
 extern crate puzzle_maker_lib;
 extern crate brute_solver_lib;
 
-mod menu;
-
 use puzzle_maker_lib::{
     board_builder::BoardBuilder,
     puzzle_maker::PuzzleMaker,
@@ -12,9 +10,6 @@ use brute_solver_lib::{
     puzzle_state::PuzzleState,
     brute_solver::BruteSolver,
 };
-
-
-
 
 fn main() {
 
@@ -31,7 +26,10 @@ fn main() {
     match args[1].parse::<String>().unwrap().as_ref() {
 
         SWITCH_BUILD => {
-            let mut puzzle_board = BoardBuilder::build_brute();
+            let reset_threshold = 500000; //how many runs before we reset the board cause of constant failures
+            let build_resets_stop = usize::MAX; //how many board resets we run before we stop execution
+
+            let mut puzzle_board = BoardBuilder::build_brute(reset_threshold, build_resets_stop);
             BoardBuilder::write_to_file(&puzzle_board, "_answer");
             puzzle_board = PuzzleMaker::apply_patterns(puzzle_board, 45);
             BoardBuilder::write_to_file(&puzzle_board, "_puzzle");

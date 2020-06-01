@@ -2,7 +2,7 @@
 members = [
     "brute_solver_lib",
     "puzzle_maker_lib",
-    "puzzle_scorer_lib",
+    # "puzzle_scorer_lib", //TODO build lib to score board difficulty
     "rs_sudoku_menu",
 ]
 

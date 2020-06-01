@@ -1,3 +1,5 @@
+use rayon::prelude::*;
+
 use crate::puzzle_board::PuzzleBoard;
 use crate::puzzle_piece::{PuzzlePiece, Cell};
 
@@ -7,6 +9,8 @@ impl DuplicateChecker {
 
     /// # About
     /// Checks for duplicates horizontal and then vertical across the board.
+    /// Walks through the grids on the board, from upper left to lower right
+    /// for all 9 squares within the larger square. 
     /// Returning when we find a None in the horiz.
     pub fn duplicate_found(puzzle_board: &PuzzleBoard, pos: u32) -> bool {
         match pos {
@@ -24,6 +28,7 @@ impl DuplicateChecker {
     }
 
     fn board_iter(puzzle_board: &PuzzleBoard, row: Vec<u32>, col: Vec<u32>) -> bool {
+
         for pos in row {
             if Self::list_dup_found(&puzzle_board.extract_row(pos)) {
                 return true;
